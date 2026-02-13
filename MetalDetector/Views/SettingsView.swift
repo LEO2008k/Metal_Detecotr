@@ -1,9 +1,10 @@
 import SwiftUI
 
-/// Settings screen for configuring audio and haptic feedback.
+/// Settings screen for configuring audio, haptic feedback, and language.
 struct SettingsView: View {
     let feedbackManager: FeedbackManager
     @Environment(\.dismiss) private var dismiss
+    @State private var localizer = Localizer.shared
     
     var body: some View {
         NavigationStack {
@@ -13,6 +14,40 @@ struct SettingsView: View {
                 
                 ScrollView {
                     VStack(spacing: 20) {
+                        
+                        // Language Section
+                        settingsSection(title: L10n.language) {
+                            ForEach(Localizer.Language.allCases) { lang in
+                                Button {
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        localizer.selectedLanguage = lang
+                                    }
+                                } label: {
+                                    HStack(spacing: 12) {
+                                        Text(lang.displayName)
+                                            .font(.system(size: 15, weight: .medium))
+                                            .foregroundStyle(.white.opacity(0.85))
+                                        
+                                        Spacer()
+                                        
+                                        if localizer.selectedLanguage == lang {
+                                            Image(systemName: "checkmark.circle.fill")
+                                                .font(.system(size: 20))
+                                                .foregroundStyle(.cyan)
+                                                .transition(.scale.combined(with: .opacity))
+                                        }
+                                    }
+                                    .padding(.vertical, 6)
+                                    .contentShape(Rectangle())
+                                }
+                                .buttonStyle(.plain)
+                                
+                                if lang != Localizer.Language.allCases.last {
+                                    Divider().opacity(0.1)
+                                }
+                            }
+                        }
+                        
                         // Feedback Section
                         settingsSection(title: L10n.feedback) {
                             SettingsToggle(

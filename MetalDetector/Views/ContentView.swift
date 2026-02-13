@@ -1,10 +1,30 @@
 import SwiftUI
 
+/// Main app mode
+enum AppMode: String, CaseIterable {
+    case metalDetector
+    case bubbleLevel
+    
+    var icon: String {
+        switch self {
+        case .metalDetector: return "antenna.radiowaves.left.and.right"
+        case .bubbleLevel: return "level"
+        }
+    }
+    
+    var label: String {
+        switch self {
+        case .metalDetector: return L10n.metalDetector
+        case .bubbleLevel: return L10n.bubbleLevel
+        }
+    }
+}
+
 struct ContentView: View {
     @State private var viewModel = DetectorViewModel()
     @State private var showSettings = false
-    @State private var animatePulse = false
     @State private var backgroundRotation: Double = 0
+    @State private var currentMode: AppMode = .metalDetector
     
     var body: some View {
         ZStack {
@@ -21,51 +41,26 @@ struct ContentView: View {
                 // Top Bar
                 topBar
                 
-                Spacer()
+                // Mode Switcher
+                modeSwitcher
+                    .padding(.top, 8)
                 
-                // Radar Ring Visualization
-                RadarRingView(
-                    normalizedStrength: viewModel.signalProcessor.normalizedStrength,
-                    detectionLevel: viewModel.signalProcessor.detectionLevel,
-                    isScanning: viewModel.isScanning,
-                    isCalibrating: !viewModel.signalProcessor.isCalibrated && viewModel.isScanning,
-                    detectionAngle: viewModel.signalProcessor.detectionAngle,
-                    detectionDistance: viewModel.signalProcessor.detectionDistance
-                )
-                .frame(width: 280, height: 280)
-                
-                Spacer().frame(height: 20)
-                
-                // Detection Label
-                detectionLabel
-                
-                Spacer().frame(height: 16)
-                
-                // Stats Row
-                if viewModel.isScanning {
-                    statsRow
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                // Content based on mode
+                switch currentMode {
+                case .metalDetector:
+                    metalDetectorContent
+                case .bubbleLevel:
+                    BubbleLevelView()
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .trailing).combined(with: .opacity),
+                            removal: .move(edge: .leading).combined(with: .opacity)
+                        ))
                 }
-                
-                Spacer().frame(height: 12)
-                
-                // Waveform
-                if viewModel.isScanning && viewModel.signalProcessor.isCalibrated {
-                    WaveformView(readings: viewModel.readingHistory)
-                        .frame(height: 70)
-                        .padding(.horizontal, 24)
-                        .transition(.opacity.combined(with: .scale(scale: 0.95)))
-                }
-                
-                Spacer()
-                
-                // Controls
-                controlsSection
-                    .padding(.bottom, 30)
             }
         }
         .animation(.easeInOut(duration: 0.4), value: viewModel.isScanning)
         .animation(.spring(response: 0.5, dampingFraction: 0.7), value: viewModel.signalProcessor.detectionLevel)
+        .animation(.easeInOut(duration: 0.35), value: currentMode)
         .onAppear {
             withAnimation(.linear(duration: 30).repeatForever(autoreverses: false)) {
                 backgroundRotation = 360
@@ -109,6 +104,114 @@ struct ContentView: View {
         }
         .padding(.horizontal, 24)
         .padding(.top, 8)
+    }
+    
+    // MARK: - Mode Switcher
+    
+    private var modeSwitcher: some View {
+        HStack(spacing: 4) {
+            ForEach(AppMode.allCases, id: \.rawValue) { mode in
+                Button {
+                    if currentMode == .metalDetector && viewModel.isScanning {
+                        viewModel.stopScanning()
+                    }
+                    currentMode = mode
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(systemName: mode.icon)
+                            .font(.system(size: 13, weight: .semibold))
+                        Text(mode.label)
+                            .font(.system(size: 13, weight: .semibold, design: .rounded))
+                    }
+                    .foregroundStyle(currentMode == mode ? .white : .white.opacity(0.4))
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .background(
+                        currentMode == mode
+                        ? AnyShapeStyle(.ultraThinMaterial)
+                        : AnyShapeStyle(.clear)
+                    )
+                    .clipShape(Capsule())
+                    .overlay(
+                        Capsule()
+                            .stroke(currentMode == mode ? .white.opacity(0.15) : .clear, lineWidth: 1)
+                    )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(4)
+        .background(.black.opacity(0.3), in: Capsule())
+    }
+    
+    // MARK: - Metal Detector Content
+    
+    private var metalDetectorContent: some View {
+        VStack(spacing: 0) {
+            Spacer()
+            
+            // Radar + Vertical Indicator
+            HStack(spacing: 12) {
+                Spacer()
+                
+                // Radar Ring Visualization
+                RadarRingView(
+                    normalizedStrength: viewModel.signalProcessor.normalizedStrength,
+                    detectionLevel: viewModel.signalProcessor.detectionLevel,
+                    isScanning: viewModel.isScanning,
+                    isCalibrating: !viewModel.signalProcessor.isCalibrated && viewModel.isScanning,
+                    detectionAngle: viewModel.signalProcessor.detectionAngle,
+                    detectionDistance: viewModel.signalProcessor.detectionDistance
+                )
+                .frame(width: 260, height: 260)
+                
+                // Vertical depth indicator (above/below)
+                if viewModel.isScanning && viewModel.signalProcessor.isCalibrated {
+                    VerticalDepthIndicator(
+                        verticalDelta: viewModel.signalProcessor.verticalDelta,
+                        direction: viewModel.signalProcessor.verticalDirection,
+                        isDetecting: viewModel.signalProcessor.isDetecting
+                    )
+                    .frame(width: 44, height: 200)
+                    .transition(.move(edge: .trailing).combined(with: .opacity))
+                }
+                
+                Spacer()
+            }
+            
+            Spacer().frame(height: 20)
+            
+            // Detection Label
+            detectionLabel
+            
+            Spacer().frame(height: 16)
+            
+            // Stats Row
+            if viewModel.isScanning {
+                statsRow
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+            
+            Spacer().frame(height: 12)
+            
+            // Waveform
+            if viewModel.isScanning && viewModel.signalProcessor.isCalibrated {
+                WaveformView(readings: viewModel.readingHistory)
+                    .frame(height: 70)
+                    .padding(.horizontal, 24)
+                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
+            }
+            
+            Spacer()
+            
+            // Controls
+            controlsSection
+                .padding(.bottom, 30)
+        }
+        .transition(.asymmetric(
+            insertion: .move(edge: .leading).combined(with: .opacity),
+            removal: .move(edge: .trailing).combined(with: .opacity)
+        ))
     }
     
     // MARK: - Detection Label

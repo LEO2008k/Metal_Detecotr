@@ -34,15 +34,29 @@ final class SignalProcessor: @unchecked Sendable {
     /// Detection level for UI feedback
     private(set) var detectionLevel: DetectionLevel = .none
     
-    /// Smoothed X/Y components for directional detection
+    /// Smoothed X/Y/Z components for directional detection
     private(set) var smoothedX: Double = 0
     private(set) var smoothedY: Double = 0
+    private(set) var smoothedZ: Double = 0
     
     /// Angle in radians where metal is detected (from atan2 of delta X/Y)
     private(set) var detectionAngle: Double = 0
     
     /// Distance from center for radar blip (0.0 = center, 1.0 = edge)
     private(set) var detectionDistance: Double = 0
+    
+    /// Vertical direction: positive = above phone, negative = below, ~0 = same level
+    private(set) var verticalDelta: Double = 0
+    
+    /// Vertical direction enum for UI
+    enum VerticalDirection {
+        case above, below, level
+    }
+    
+    var verticalDirection: VerticalDirection {
+        if abs(verticalDelta) < 5 { return .level }
+        return verticalDelta > 0 ? .above : .below
+    }
     
     // MARK: - Configuration
     
@@ -66,8 +80,10 @@ final class SignalProcessor: @unchecked Sendable {
     private var calibrationReadings: [Double] = []
     private var calibrationX: [Double] = []
     private var calibrationY: [Double] = []
+    private var calibrationZ: [Double] = []
     private let calibrationCount = 30
     private(set) var isCalibrated: Bool = false
+    private(set) var baselineZ: Double = 0
     
     // MARK: - Detection Level
     
@@ -110,10 +126,12 @@ final class SignalProcessor: @unchecked Sendable {
             smoothedMagnitude = reading.magnitude
             smoothedX = reading.x
             smoothedY = reading.y
+            smoothedZ = reading.z
         } else {
             smoothedMagnitude = smoothedMagnitude + filterAlpha * (reading.magnitude - smoothedMagnitude)
             smoothedX = smoothedX + filterAlpha * (reading.x - smoothedX)
             smoothedY = smoothedY + filterAlpha * (reading.y - smoothedY)
+            smoothedZ = smoothedZ + filterAlpha * (reading.z - smoothedZ)
         }
         
         // Calibration phase — collect baseline readings
@@ -121,10 +139,12 @@ final class SignalProcessor: @unchecked Sendable {
             calibrationReadings.append(reading.magnitude)
             calibrationX.append(reading.x)
             calibrationY.append(reading.y)
+            calibrationZ.append(reading.z)
             if calibrationReadings.count >= calibrationCount {
                 baseline = calibrationReadings.reduce(0, +) / Double(calibrationReadings.count)
                 baselineX = calibrationX.reduce(0, +) / Double(calibrationX.count)
                 baselineY = calibrationY.reduce(0, +) / Double(calibrationY.count)
+                baselineZ = calibrationZ.reduce(0, +) / Double(calibrationZ.count)
                 isCalibrated = true
             }
             return
@@ -143,6 +163,9 @@ final class SignalProcessor: @unchecked Sendable {
         // Distance = how far the blip is from center (based on strength)
         let xyMagnitude = sqrt(deltaX * deltaX + deltaY * deltaY)
         detectionDistance = min(xyMagnitude / maxDelta * 2.5, 0.85)
+        
+        // Z-axis: vertical direction (above/below phone)
+        verticalDelta = smoothedZ - baselineZ
         
         // Normalize to 0-1 range
         normalizedStrength = min(delta / maxDelta, 1.0)
@@ -168,15 +191,18 @@ final class SignalProcessor: @unchecked Sendable {
         calibrationReadings.removeAll()
         calibrationX.removeAll()
         calibrationY.removeAll()
+        calibrationZ.removeAll()
         isCalibrated = false
         baseline = 0
         baselineX = 0
         baselineY = 0
+        baselineZ = 0
         delta = 0
         normalizedStrength = 0
         detectionLevel = .none
         isDetecting = false
         detectionAngle = 0
         detectionDistance = 0
+        verticalDelta = 0
     }
 }
