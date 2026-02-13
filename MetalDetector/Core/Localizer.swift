@@ -128,8 +128,8 @@ struct L10n {
     // MARK: - Bubble Level
     
     static var metalDetector: String { isUkrainian ? "Металошукач" : "Metal Detector" }
-    static var bubbleLevel: String { isUkrainian ? "Ватерпас" : "Spirit Level" }
-    static var bubbleLevelSubtitle: String { isUkrainian ? "Бульбашковий рівень" : "Bubble Level" }
+    static var bubbleLevel: String { isUkrainian ? "Рівень" : "Spirit Level" }
+    static var bubbleLevelSubtitle: String { isUkrainian ? "Будівельний рівень" : "Bubble Level" }
     static var leftRight: String { isUkrainian ? "Ліво-Право" : "Left-Right" }
     static var frontBack: String { isUkrainian ? "Перед-Зад" : "Front-Back" }
     static var levelPerfect: String { isUkrainian ? "Ідеально рівно! ✅" : "Perfectly level! ✅" }
