@@ -4,11 +4,15 @@ import SwiftUI
 enum AppMode: String, CaseIterable {
     case metalDetector
     case bubbleLevel
+    case ruler
+    case soundMeter
     
     var icon: String {
         switch self {
         case .metalDetector: return "antenna.radiowaves.left.and.right"
         case .bubbleLevel: return "level"
+        case .ruler: return "ruler"
+        case .soundMeter: return "waveform.path.ecg"
         }
     }
     
@@ -16,6 +20,8 @@ enum AppMode: String, CaseIterable {
         switch self {
         case .metalDetector: return L10n.metalDetector
         case .bubbleLevel: return L10n.bubbleLevel
+        case .ruler: return L10n.ruler
+        case .soundMeter: return L10n.soundMeter
         }
     }
 }
@@ -51,6 +57,18 @@ struct ContentView: View {
                     metalDetectorContent
                 case .bubbleLevel:
                     BubbleLevelView()
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .trailing).combined(with: .opacity),
+                            removal: .move(edge: .leading).combined(with: .opacity)
+                        ))
+                case .ruler:
+                    RulerView()
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .trailing).combined(with: .opacity),
+                            removal: .move(edge: .leading).combined(with: .opacity)
+                        ))
+                case .soundMeter:
+                     NoiseMeterView()
                         .transition(.asymmetric(
                             insertion: .move(edge: .trailing).combined(with: .opacity),
                             removal: .move(edge: .leading).combined(with: .opacity)

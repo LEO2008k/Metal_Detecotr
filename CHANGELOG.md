@@ -5,39 +5,43 @@ All notable changes to MetalDetector will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-02-16
+
+### Added
+
+- 🔊 **Sound Meter (Шумомір)** — new tool for measuring ambient noise levels (dB)
+  - Real-time analog gauge and digital readout
+  - History graph and Avg/Max stats
+  - Privacy-first: analyzes audio stream in RAM, never saves to file (`/dev/null`)
+- 📏 **Ruler (Лінійка)** — visual ruler for measuring small objects on screen
+  - Dual scale: Centimeters (Left) and Inches (Right)
+  - Draggable slider for precise measurement
+- 🛠️ **Rebranding** — App renamed to **"Smart Tools"** (formerly MetalDetector) to reflect expanded functionality
+- 🔁 **Universal Toolset** — 4 main modes: Metal Detector, Spirit Level, Ruler, Sound Meter
+
+### Changed
+
+- Updated `Info.plist` with microphone usage description for Sound Meter
+- App title in header changed to "Smart Tools"
+
+## [1.1.1] - 2026-02-13
+
+### Changed
+
+- Renamed 'Ватерпас' → 'Рівень' in Ukrainian
+- Redesigned bubble level to look like a real construction level
+
 ## [1.1.0] - 2026-02-13
 
 ### Added
 
-- 🌍 **Language selector** in Settings — manually switch between Ukrainian 🇺🇦, English 🇬🇧, or Auto-detect
-- 🫧 **Spirit Level (Ватерпас)** — new mode with 2D bubble level using accelerometer
-  - Real-time tilt measurement (Left-Right & Front-Back)
-  - Color-coded status (green = level, yellow = slight tilt, red = tilted)
-  - Glass-like bubble with spring physics animation
-- ↕️ **Vertical depth indicator** — shows if metal is ABOVE or BELOW the phone using Z-axis magnetic field
-  - Animated arrow indicators with glow
-  - Color-coded direction (cyan = above, orange = below, green = same level)
-- 🔄 **Mode switcher** — pill-shaped tabs to toggle between Metal Detector and Spirit Level
-- 📋 **Version display** in Settings (reads from Info.plist)
-- 📝 README.md with badges, architecture, and getting started guide
-- 📝 CHANGELOG.md with Keep a Changelog format
-
-### Changed
-
-- All UI strings now use centralized L10n localizer
-- Radar ring slightly smaller (260px) to fit vertical indicator
+- 🌍 **Language selector** in Settings
+- 🫧 **Spirit Level** mode
+- ↕️ **Vertical depth indicator** for Metal Detector
+- 🔄 **Mode switcher**
 
 ## [1.0.0] - 2026-02-13
 
 ### Added
 
-- 🧲 Core magnetometer scanning via CoreMotion at 60Hz
-- 🎯 Directional radar blip showing WHERE metal is detected (X/Y magnetic components)
-- 📊 Real-time waveform visualization with bezier curves
-- 🔊 VCO-style audio feedback (frequency scales with detection strength)
-- 📳 CoreHaptics feedback with intensity correlated to magnetic flux density
-- ⚙️ Signal processing with Low-Pass Filter and auto-calibration
-- 🎨 Premium dark UI with animated background, glassmorphism, radar rings
-- 📈 Session stats: duration, baseline, peak strength
-- ⚠️ Ferromagnetic-only detection disclaimer
-- 🔧 Settings screen with audio/haptic toggles
+- Initial release with Metal Detector feature

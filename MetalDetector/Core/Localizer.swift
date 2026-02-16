@@ -61,8 +61,8 @@ struct L10n {
     
     // MARK: - Main Screen
     
-    static var appTitle: String { "MetalDetector" }
-    static var subtitle: String { isUkrainian ? "Магнітометр" : "Magnetometer" }
+    static var appTitle: String { "Smart Tools" }
+    static var subtitle: String { isUkrainian ? "Універсальний набір" : "Universal Toolkit" }
     static var readyToSearch: String { isUkrainian ? "Готовий до пошуку" : "Ready to search" }
     static var calibrating: String { isUkrainian ? "Калібрування..." : "Calibrating..." }
     static var scanning: String { isUkrainian ? "Скануємо..." : "Scanning..." }
@@ -81,12 +81,16 @@ struct L10n {
     static var time: String { isUkrainian ? "Час" : "Time" }
     static var baseline: String { isUkrainian ? "Базова" : "Baseline" }
     static var peak: String { isUkrainian ? "Пік" : "Peak" }
+    static var avg: String { isUkrainian ? "Сер. dB" : "Avg dB" }
+    static var max: String { isUkrainian ? "Макс. dB" : "Max dB" }
     
     // MARK: - Controls
     
     static var calibrate: String { isUkrainian ? "Калібрувати" : "Calibrate" }
     static var sound: String { isUkrainian ? "Звук" : "Sound" }
     static var muted: String { isUkrainian ? "Тиша" : "Muted" }
+    static var start: String { isUkrainian ? "Старт" : "Start" }
+    static var stop: String { isUkrainian ? "Стоп" : "Stop" }
     
     // MARK: - Waveform
     
@@ -106,6 +110,7 @@ struct L10n {
     static var aboutApp: String { isUkrainian ? "Про додаток" : "About" }
     static var sensor: String { isUkrainian ? "Сенсор" : "Sensor" }
     static var magnetometer: String { isUkrainian ? "Магнітометр" : "Magnetometer" }
+    static var microphone: String { isUkrainian ? "Мікрофон" : "Microphone" }
     static var filter: String { isUkrainian ? "Фільтр" : "Filter" }
     static var frequency: String { isUkrainian ? "Частота" : "Frequency" }
     static var limitations: String { "⚠️ " + (isUkrainian ? "Обмеження" : "Limitations") }
@@ -121,8 +126,8 @@ struct L10n {
     }
     static var versionInfo: String {
         isUkrainian
-        ? "MetalDetector v\(AppVersion.version) • Магнітометр iPhone"
-        : "MetalDetector v\(AppVersion.version) • iPhone Magnetometer"
+        ? "Smart Tools v\(AppVersion.version)"
+        : "Smart Tools v\(AppVersion.version)"
     }
     
     // MARK: - Bubble Level
@@ -140,4 +145,21 @@ struct L10n {
     
     static var above: String { isUkrainian ? "ВГОРІ" : "ABOVE" }
     static var below: String { isUkrainian ? "ВНИЗУ" : "BELOW" }
+    
+    // MARK: - Ruler
+    
+    static var ruler: String { isUkrainian ? "Лінійка" : "Ruler" }
+    static var rulerSubtitle: String { isUkrainian ? "Вимірювання довжини" : "Length measurement" }
+    static var centimeters: String { isUkrainian ? "см" : "cm" }
+    static var inches: String { isUkrainian ? "дюйми" : "in" }
+    
+    // MARK: - Sound Meter
+    
+    static var soundMeter: String { isUkrainian ? "Шумомір" : "Sound Meter" }
+    static var decibels: String { isUkrainian ? "Децибел" : "Decibels" }
+    static var noiseLevel: String { isUkrainian ? "Рівень шуму" : "Noise Level" }
+    static var quiet: String { isUkrainian ? "Тихо 🍃" : "Quiet 🍃" }
+    static var moderateNoise: String { isUkrainian ? "Помірно 🗣️" : "Moderate 🗣️" }
+    static var loud: String { isUkrainian ? "Гучно 📢" : "Loud 📢" }
+    static var veryLoud: String { isUkrainian ? "Дуже гучно! ⚠️" : "Very Loud! ⚠️" }
 }

@@ -24,6 +24,8 @@
 		A10015 /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20016 /* AppVersion.swift */; };
 		A10016 /* BubbleLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20017 /* BubbleLevelView.swift */; };
 		A10017 /* VerticalDepthIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20018 /* VerticalDepthIndicator.swift */; };
+		A10018 /* RulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20019 /* RulerView.swift */; };
+		A10019 /* NoiseMeterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20020 /* NoiseMeterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +47,8 @@
 		A20016 /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
 		A20017 /* BubbleLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleLevelView.swift; sourceTree = "<group>"; };
 		A20018 /* VerticalDepthIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalDepthIndicator.swift; sourceTree = "<group>"; };
+		A20019 /* RulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerView.swift; sourceTree = "<group>"; };
+		A20020 /* NoiseMeterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseMeterView.swift; sourceTree = "<group>"; };
 		A30001 /* MetalDetector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalDetector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -99,6 +103,8 @@
 				A20002 /* ContentView.swift */,
 				A20011 /* SettingsView.swift */,
 				A20017 /* BubbleLevelView.swift */,
+				A20019 /* RulerView.swift */,
+				A20020 /* NoiseMeterView.swift */,
 				A50005 /* Components */,
 			);
 			path = Views;
@@ -218,6 +224,8 @@
 				A10015 /* AppVersion.swift in Sources */,
 				A10016 /* BubbleLevelView.swift in Sources */,
 				A10017 /* VerticalDepthIndicator.swift in Sources */,
+				A10018 /* RulerView.swift in Sources */,
+				A10019 /* NoiseMeterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
