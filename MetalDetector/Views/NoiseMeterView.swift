@@ -185,7 +185,7 @@ struct NoiseMeterView: View {
     // MARK: - Logic
     
     private func checkPermission() {
-        switch AVAudioSession.sharedInstance().recordPermission {
+        switch AVAudioApplication.shared.recordPermission {
         case .granted:
             permissionGranted = true
             startRecording()
@@ -199,7 +199,7 @@ struct NoiseMeterView: View {
     }
     
     private func requestPermission() {
-        AVAudioSession.sharedInstance().requestRecordPermission { granted in
+        AVAudioApplication.requestRecordPermission { granted in
             DispatchQueue.main.async {
                 self.permissionGranted = granted
                 if granted { startRecording() }

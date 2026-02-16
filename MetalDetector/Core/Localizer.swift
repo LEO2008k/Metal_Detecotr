@@ -61,8 +61,8 @@ struct L10n {
     
     // MARK: - Main Screen
     
-    static var appTitle: String { "Smart Tools" }
-    static var subtitle: String { isUkrainian ? "Універсальний набір" : "Universal Toolkit" }
+    static var appTitle: String { "MeasureBox" }
+    static var subtitle: String { isUkrainian ? "Коробка вимірювань" : "Measurement Toolkit" }
     static var readyToSearch: String { isUkrainian ? "Готовий до пошуку" : "Ready to search" }
     static var calibrating: String { isUkrainian ? "Калібрування..." : "Calibrating..." }
     static var scanning: String { isUkrainian ? "Скануємо..." : "Scanning..." }
@@ -126,8 +126,8 @@ struct L10n {
     }
     static var versionInfo: String {
         isUkrainian
-        ? "Smart Tools v\(AppVersion.version)"
-        : "Smart Tools v\(AppVersion.version)"
+        ? "MeasureBox v\(AppVersion.version)"
+        : "MeasureBox v\(AppVersion.version)"
     }
     
     // MARK: - Bubble Level

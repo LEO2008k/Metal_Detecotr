@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>Smart Tools</string>
+	<string>MeasureBox</string>
 	<key>CFBundleName</key>
-	<string>Smart Tools</string>
+	<string>MeasureBox</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Used for Metal Detector (magnetometer) and Bubble Level (accelerometer).</string>
 	<key>NSMicrophoneUsageDescription</key>
